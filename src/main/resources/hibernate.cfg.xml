@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+    
+    	<!-- 常用属性配置 -->
+    	<!-- ①Hibernate程序运行时是否打印自动生成的SQL语句 -->
+    	<property name="hibernate.show_sql">true</property>
+    	<!-- ②是否将Hibernate打印的SQL语句进行格式化 -->
+    	<property name="hibernate.format_sql">true</property>
+    	<!-- ③生成数据库表的策略 -->
+    	<property name="hibernate.hbm2ddl.auto">update</property>
+    	<!-- ④指定数据库方言 -->
+    	<!-- 方言：同一个事物在不同地区有不同称谓 -->
+		<!-- 数据库方言：同一个操作在不同数据库中SQL语句不一样 -->
+		<!-- 具体数据库方言的取值参见 hibernate-release-4.2.4.Final\project\etc\hibernate.properties -->
+		<!-- 以MySQL为例 -->
+		<!-- MySQL版本低于5.5的使用：org.hibernate.dialect.MySQLInnoDBDialect -->
+		<!-- MySQL版本大于等于5.5的使用：org.hibernate.dialect.MySQL5InnoDBDialect -->
+    	<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+    	
+    	<!-- 其他配置 -->
+    	<!-- 启用二级缓存 -->
+    	<property name="hibernate.cache.use_second_level_cache">true</property>
+    	
+    	<!-- 启用查询缓存 -->
+    	<property name="hibernate.cache.use_query_cache">true</property>
+    	
+    	<!-- 指定二级缓存产品，设置缓存工厂：用于构建缓存区 -->
+    	<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+    	
+    
+    	<!-- 映射配置 -->
+    	<mapping resource="com/qiaosoftware/crud/entity/Department.hbm.xml"/>
+    	<mapping resource="com/qiaosoftware/crud/entity/Employee.hbm.xml"/>
+    	
+    	<!-- 为Department类开启二级缓存功能 -->
+    	<class-cache usage="read-write" class="com.qiaosoftware.crud.entity.Department"/>
+
+    </session-factory>
+</hibernate-configuration>

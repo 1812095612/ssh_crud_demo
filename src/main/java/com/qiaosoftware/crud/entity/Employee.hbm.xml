@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-6-13 15:13:18 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping package="com.qiaosoftware.crud.entity">
+    <class name="Employee" table="EMPS">
+        <id name="empId" type="java.lang.Integer">
+            <column name="EMP_ID" />
+            <generator class="native" />
+        </id>
+        <property name="empName" type="java.lang.String">
+            <column name="EMP_NAME" />
+        </property>
+        
+        <!-- 单向多对一映射 -->
+        <!-- lazy="false"立即加载，发送两条SQL语句，先查Employee，然后立即查询Department -->
+        <!-- fetch="join"迫切左外连接，只发送一条SQL语句，通过左外连接的方式把关联的Department同时查询得到 -->
+        <many-to-one name="dept" class="Department" fetch="join">
+            <column name="DEPT_ID_FK" />
+        </many-to-one>
+    </class>
+    <!-- 
+    <query name="selectEmployee">
+        <![CDATA[
+            FROM Employee e WHERE e.salary < :salary ORDER BY e.empName ASC
+        ]]>
+    </query>
+     -->
+</hibernate-mapping>

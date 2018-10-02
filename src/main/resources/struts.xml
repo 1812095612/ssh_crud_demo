@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <package name="default" namespace="/" extends="struts-default">
+
+		<interceptors>
+			<!-- 自定义拦截器栈 -->
+			<interceptor-stack name="sshStack">
+				<interceptor-ref name="paramsPrepareParamsStack">
+					<param name="prepare.alwaysInvokePrepare">false</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- 默认拦截器引用 -->
+		<default-interceptor-ref name="sshStack"/>
+		
+		<!-- 全局结果配置和全局异常映射配置 -->
+        <global-results>
+            <result name="error">/error.jsp</result>
+        </global-results>
+    
+        <global-exception-mappings>
+            <exception-mapping result="error" exception="java.lang.Exception"/>
+        </global-exception-mappings>
+
+		<!-- class属性值：定义别名
+			Action是委托Spring框架的IOC容器来进行管理
+		 -->
+		<action name="queryAllEmployee" class="employeeAction" method="queryAll">
+			<result>/list.jsp</result>
+		</action>
+        <!-- type默认name="dispatcher"
+                    name="redirect"
+                    name="redirectAction"
+                    name="stream"
+         -->
+		<action name="toAddEmployee" class="employeeAction" method="toAdd">
+			<result name="add" type="dispatcher">/add.jsp</result>
+		</action>
+
+		<action name="addEmployee" class="employeeAction" method="add">
+			<result name="list" type="redirectAction">queryAllEmployee</result>
+		</action>
+
+		<action name="deleteEmployee" class="employeeAction" method="delete">
+			<result name="list" type="redirectAction">queryAllEmployee</result>
+		</action>
+	
+		<action name="toUpdateEmployee" class="employeeAction" method="toUpdate">
+			<result name="toUpdate">/update.jsp</result>
+		</action>
+		
+		<action name="doUpdateEmployee" class="employeeAction" method="doUpdate">
+			<result name="list" type="redirectAction">queryAllEmployee</result>
+		</action>
+		
+
+    </package>
+
+</struts>
